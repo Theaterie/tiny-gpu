@@ -1,5 +1,16 @@
 # tiny-gpu
 
+> **Fork notice**
+> This is a personal fork of [adam-maj/tiny-gpu](https://github.com/adam-maj/tiny-gpu), maintained by [@Theaterie](https://github.com/Theaterie) as `tiny-gpu` for tensor-core related experimentation.
+> All upstream architecture, ISA, and Verilog sources are authored by Adam Majmudar — please refer to the [original repository](https://github.com/adam-maj/tiny-gpu) for project background and documentation.
+>
+> **Notable additions in this fork**
+> - `assembler/` — a Python assembler that compiles `.asm` kernel sources into the 16-bit ISA machine code.
+> - `kernels/` — assembly source files (`matadd.asm`, `matmul.asm`) replacing the previously hard-coded machine code in the testbenches.
+> - The cocotb testbenches now assemble these `.asm` files at runtime instead of using inline binary.
+>
+> **License:** The upstream project does not declare a license, so its source remains "All rights reserved" by the original author. This fork is published for personal study; no additional rights are granted beyond what the original author permits.
+
 A minimal GPU implementation in Verilog optimized for learning about how GPUs work from the ground up.
 
 Built with <15 files of fully documented Verilog, complete documentation on architecture & ISA, working matrix addition/multiplication kernels, and full support for kernel simulation & execution traces.

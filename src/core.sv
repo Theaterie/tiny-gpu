@@ -72,6 +72,28 @@ module core #(
     reg decoded_ret;
 
     // Fetcher
+    wire ibuf_hit;
+    wire [PROGRAM_MEM_DATA_BITS-1:0] ibuf_hit_data;
+    wire ibuf_fill_valid;
+    wire [PROGRAM_MEM_ADDR_BITS-1:0] ibuf_fill_address;
+    wire [PROGRAM_MEM_DATA_BITS-1:0] ibuf_fill_data;
+
+    ibuffer #(
+        .ADDR_BITS(PROGRAM_MEM_ADDR_BITS),
+        .DATA_BITS(PROGRAM_MEM_DATA_BITS),
+        .NUM_ENTRIES(16)
+    ) ibuffer_instance (
+        .clk(clk),
+        .reset(reset),
+        .lookup_valid(1'b1),
+        .lookup_address(current_pc),
+        .hit(ibuf_hit),
+        .hit_data(ibuf_hit_data),
+        .fill_valid(ibuf_fill_valid),
+        .fill_address(ibuf_fill_address),
+        .fill_data(ibuf_fill_data)
+    );
+
     fetcher #(
         .PROGRAM_MEM_ADDR_BITS(PROGRAM_MEM_ADDR_BITS),
         .PROGRAM_MEM_DATA_BITS(PROGRAM_MEM_DATA_BITS)
@@ -84,6 +106,11 @@ module core #(
         .mem_read_address(program_mem_read_address),
         .mem_read_ready(program_mem_read_ready),
         .mem_read_data(program_mem_read_data),
+        .ibuf_hit(ibuf_hit),
+        .ibuf_hit_data(ibuf_hit_data),
+        .ibuf_fill_valid(ibuf_fill_valid),
+        .ibuf_fill_address(ibuf_fill_address),
+        .ibuf_fill_data(ibuf_fill_data),
         .fetcher_state(fetcher_state),
         .instruction(instruction) 
     );
